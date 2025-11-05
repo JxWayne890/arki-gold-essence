@@ -8,6 +8,10 @@ const AboutSection = () => {
     icon: Compass,
     title: "Design Planning",
     description: "Strategic spatial planning for optimal flow and functionality."
+  }, {
+    icon: ClipboardList,
+    title: "Permit & Construction Support",
+    description: "Comprehensive guidance from permits to completion"
   }];
   return <section className="bg-background py-24 px-4">
       <div className="container mx-auto max-w-6xl">
