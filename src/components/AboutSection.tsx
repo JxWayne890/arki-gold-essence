@@ -3,15 +3,11 @@ const AboutSection = () => {
   const services = [{
     icon: Home,
     title: "Custom Home Design",
-    description: "Bespoke architectural solutions tailored to your lifestyle"
+    description: "Bespoke design solutions tailored to your lifestyle."
   }, {
     icon: Compass,
-    title: "Architectural Planning",
-    description: "Strategic space planning for optimal functionality"
-  }, {
-    icon: ClipboardList,
-    title: "Permit & Construction Support",
-    description: "Comprehensive guidance from permits to completion"
+    title: "Design Planning",
+    description: "Strategic spatial planning for optimal flow and functionality."
   }];
   return <section className="bg-background py-24 px-4">
       <div className="container mx-auto max-w-6xl">
