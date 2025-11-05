@@ -10,6 +10,8 @@ const ContactSection = () => {
     name: "",
     email: "",
     phone: "",
+    city: "",
+    state: "",
     description: ""
   });
 
@@ -17,7 +19,7 @@ const ContactSection = () => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.email || !formData.phone) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.state) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -37,6 +39,8 @@ const ContactSection = () => {
       name: "",
       email: "",
       phone: "",
+      city: "",
+      state: "",
       description: ""
     });
   };
@@ -99,6 +103,26 @@ const ContactSection = () => {
               required
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              type="text"
+              placeholder="City *"
+              value={formData.city}
+              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+              className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
+              required
+            />
+            <Input
+              type="text"
+              placeholder="State *"
+              value={formData.state}
+              onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+              className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
+              required
+            />
+          </div>
+
 
           <div>
             <Textarea
