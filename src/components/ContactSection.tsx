@@ -15,11 +15,17 @@ const ContactSection = () => {
     description: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Basic validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.city || !formData.state) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.city ||
+      !formData.state
+    ) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -28,33 +34,78 @@ const ContactSection = () => {
       return;
     }
 
-    // Simulate form submission
-    toast({
-      title: "Consultation Request Received!",
-      description: "We'll contact you within 24 hours to discuss your project.",
-    });
+    try {
+      // Build payload for Web3Forms
+      const payload = new FormData();
+      payload.append("access_key", "4d6f7472-3b0e-4b01-a7d8-819a5cbf22b9");
+      payload.append("subject", "New ARKI Landing Page Consultation Request");
+      payload.append("name", formData.name);
+      payload.append("email", formData.email);
+      payload.append("phone", formData.phone);
+      payload.append("city", formData.city);
+      payload.append("state", formData.state);
+      payload.append(
+        "message",
+        formData.description || "No additional project description provided."
+      );
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      city: "",
-      state: "",
-      description: ""
-    });
+      // Optional extras (helps in your inbox)
+      payload.append(
+        "from_name",
+        "ARKI Landing Page Contact Form"
+      );
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: payload
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Consultation Request Received!",
+          description:
+            "Thank you for reaching out. We’ll contact you within 24 hours to discuss your project."
+        });
+
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          city: "",
+          state: "",
+          description: ""
+        });
+      } else {
+        toast({
+          title: "Something went wrong",
+          description:
+            data.message || "Please try again in a moment.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Network error",
+        description: "Unable to send your request right now. Please try again later.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
-    <section 
+    <section
       id="contact"
       className="relative bg-secondary py-24 px-4 overflow-hidden"
     >
       {/* Gold gradient edge effect */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none"
-        style={{ 
-          background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%)"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%)"
         }}
       />
 
@@ -65,18 +116,24 @@ const ContactSection = () => {
             Let's Design Your Dream Space
           </h2>
           <p className="text-secondary-foreground/80 text-lg">
-            Share your vision with us and start your architectural journey
+            Share your vision with us and start your design journey
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 animate-fade-in-up"
+          style={{ animationDelay: "0.2s" }}
+        >
           <div>
             <Input
               type="text"
               placeholder="Full Name *"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
               required
             />
@@ -87,7 +144,9 @@ const ContactSection = () => {
               type="email"
               placeholder="Email Address *"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
               required
             />
@@ -98,7 +157,9 @@ const ContactSection = () => {
               type="tel"
               placeholder="Phone Number *"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
               required
             />
@@ -109,7 +170,9 @@ const ContactSection = () => {
               type="text"
               placeholder="City *"
               value={formData.city}
-              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
               required
             />
@@ -117,18 +180,21 @@ const ContactSection = () => {
               type="text"
               placeholder="State *"
               value={formData.state}
-              onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, state: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 h-14 text-lg focus:border-primary"
               required
             />
           </div>
 
-
           <div>
             <Textarea
               placeholder="Project Description (Optional)"
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground placeholder:text-secondary-foreground/50 min-h-32 text-lg focus:border-primary resize-none"
             />
           </div>
@@ -142,7 +208,8 @@ const ContactSection = () => {
           </Button>
 
           <p className="text-center text-sm text-secondary-foreground/60 mt-4">
-            We respect your privacy. Your information will only be used for project inquiries.
+            We respect your privacy. Your information will only be used for project
+            inquiries.
           </p>
         </form>
       </div>
