@@ -41,7 +41,7 @@ const ContactSection = () => {
 
       // Build Web3Forms submission data
       const payload = new FormData();
-      payload.append("access_key", "0be20944-aeee-49be-92d9-b7e517357093");
+      payload.append("access_key", "2eaa3d59-31d9-40d0-99a6-eea602e6e175");
       payload.append("subject", "New ARKI Consultation Request");
       payload.append("name", formData.name);
       payload.append("email", formData.email);
