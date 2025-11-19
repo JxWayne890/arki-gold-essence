@@ -68,7 +68,7 @@ const ContactSection = () => {
 
         setSendingStatus("Form submitted successfully!");
 
-        // Reset the form UX
+        // Reset the form
         setFormData({
           name: "",
           email: "",
@@ -77,8 +77,6 @@ const ContactSection = () => {
           state: "",
           description: "",
         });
-
-        e.currentTarget.reset();
       } else {
         toast({
           title: "Submission Error",
